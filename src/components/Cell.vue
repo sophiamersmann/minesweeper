@@ -1,10 +1,16 @@
 <template>
-  <button class="cell">1</button>
+  <button class="cell">
+    {{ hasMine ? '•' : nMines }}
+  </button>
 </template>
 
 <script>
 export default {
   name: 'Cell',
+  props: ['cell'],
+  data() {
+    return this.cell;
+  },
 };
 </script>
 

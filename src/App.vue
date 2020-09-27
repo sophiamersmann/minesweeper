@@ -1,14 +1,14 @@
 <template>
-  <Cell/>
+  <Grid/>
 </template>
 
 <script>
-import Cell from './components/Cell.vue';
+import Grid from './components/Grid.vue';
 
 export default {
   name: 'App',
   components: {
-    Cell,
+    Grid,
   },
 };
 </script>

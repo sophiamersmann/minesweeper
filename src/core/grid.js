@@ -27,6 +27,31 @@ function getNeighbourCells(matrix, row, col) {
   ];
 }
 
+function computeEmptyArea(cell, chain = []) {
+  if (cell.isEmpty && chain.indexOf(cell) === -1) {
+    chain.push(cell);
+    cell.emptyNeighbours.forEach((neighbour) => {
+      if (neighbour.emptyNeighbours.length) {
+        computeEmptyArea(neighbour, chain);
+      }
+    });
+  }
+
+  chain.forEach((emptyCell) => {
+    if (emptyCell.isEmpty) {
+      emptyCell.neighbours.forEach((neighbour) => {
+        if (!neighbour.hasMine
+          && neighbour.mineNeighbours.length
+          && chain.indexOf(neighbour) === -1) {
+          chain.push(neighbour);
+        }
+      });
+    }
+  });
+
+  return chain;
+}
+
 export default class Grid {
   constructor(size, nMines) {
     this.size = size;
@@ -38,7 +63,10 @@ export default class Grid {
       .map(() => ({ ...BASE_CELL }));
     this.matrix = chunk_(this.flat, size);
 
-    this.placeMines();
+    this
+      .assignNeighbours()
+      .placeMines()
+      .computeEmptyAreas();
   }
 
   placeMines() {
@@ -46,14 +74,29 @@ export default class Grid {
       this.matrix[random_(this.size - 1)][random_(this.size - 1)].hasMine = true;
     }
 
+    for (let i = 0; i < this.flat.length; i += 1) {
+      const cell = this.flat[i];
+      cell.mineNeighbours = cell.neighbours.filter((c) => c.hasMine);
+      cell.nMineNeighbours = cell.mineNeighbours.length;
+      cell.isEmpty = !cell.hasMine && cell.nMineNeighbours === 0;
+    }
+
+    for (let i = 0; i < this.flat.length; i += 1) {
+      const cell = this.flat[i];
+      cell.emptyNeighbours = cell.neighbours.filter((c) => c.isEmpty);
+    }
+
+    return this;
+  }
+
+  assignNeighbours() {
     // compute the number of mines around a cell
     for (let row = 0; row < this.size; row += 1) {
       for (let col = 0; col < this.size; col += 1) {
-        this.matrix[row][col].nMines = getNeighbourCells(this.matrix, row, col)
-          .filter((cell) => cell && cell.hasMine).length;
+        this.matrix[row][col].neighbours = getNeighbourCells(this.matrix, row, col)
+          .filter((cell) => cell);
       }
     }
-
     return this;
   }
 
@@ -71,5 +114,15 @@ export default class Grid {
       .clearMines()
       .placeMines();
     return this;
+  }
+
+  computeEmptyAreas() {
+    for (let i = 0; i < this.flat.length; i += 1) {
+      const cell = this.flat[i];
+      cell.emptyArea = [];
+      if (cell.isEmpty) {
+        cell.emptyArea = computeEmptyArea(cell);
+      }
+    }
   }
 }

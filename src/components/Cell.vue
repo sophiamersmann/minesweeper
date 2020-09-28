@@ -18,7 +18,7 @@ export default {
   computed: {
     displayValue() {
       if (this.hasMine) return '•';
-      return this.nMines > 0 ? this.nMines : null;
+      return this.nMineNeighbours > 0 ? this.nMineNeighbours : null;
     },
     classes() {
       return {
@@ -29,6 +29,13 @@ export default {
   methods: {
     click() {
       this.isCovered = false;
+
+      if (this.isEmpty && this.emptyArea) {
+        for (let i = 0; i < this.emptyArea.length; i += 1) {
+          const cell = this.emptyArea[i];
+          cell.isCovered = false;
+        }
+      }
     },
   },
 };

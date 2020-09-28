@@ -1,5 +1,8 @@
 <template>
-  <button class="cell">
+  <button
+    class="cell"
+    :class="classes"
+  >
     {{ displayValue }}
   </button>
 </template>
@@ -16,6 +19,11 @@ export default {
       if (this.hasMine) return '•';
       return this.nMines > 0 ? this.nMines : null;
     },
+    classes() {
+      return {
+        'is-covered': true,
+      };
+    },
   },
 };
 </script>
@@ -31,5 +39,21 @@ export default {
   text-align: center;
   vertical-align: middle;
   border: 0;
+  position: relative;
+}
+
+.cell.is-covered::after {
+  --size: 100%;
+
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: var(--size);
+  height: var(--size);
+  content: '';
+  background: var(--black);
+  outline: 1px solid #fff;
+  text-indent: 0;
 }
 </style>

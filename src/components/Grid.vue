@@ -5,7 +5,7 @@
   <div class="grid">
     <div
       class="grid__row"
-      v-for="(row, i) in grid.matrix"
+      v-for="(row, i) in game.grid"
       :key="i"
     >
       <Cell
@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import Grid from '@/core/grid';
+import Game from '@/core/Game';
 import Cell from './Cell.vue';
 
 const INIT = {
@@ -34,14 +34,12 @@ export default {
   },
   data() {
     return {
-      size: INIT.size,
-      nMines: INIT.nMines,
-      grid: new Grid(INIT.size, INIT.nMines),
+      game: new Game(INIT.size, INIT.nMines),
     };
   },
   methods: {
     start() {
-      this.grid.shuffleMines();
+      this.game.shuffleMines();
     },
   },
 };

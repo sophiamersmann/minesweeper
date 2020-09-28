@@ -6,15 +6,15 @@ const BASE_CELL = {
   isCovered: true,
 };
 
-function getCell(matrix) {
+function getCell(grid) {
   return function gc(row, col) {
-    if (matrix[row] && matrix[row][col]) return matrix[row][col];
+    if (grid[row] && grid[row][col]) return grid[row][col];
     return null;
   };
 }
 
-function getNeighbourCells(matrix, row, col) {
-  const gc = getCell(matrix);
+function getNeighbourCells(grid, row, col) {
+  const gc = getCell(grid);
   return [
     gc(row - 1, col),
     gc(row - 1, col + 1),
@@ -61,7 +61,7 @@ export default class Grid {
     this.flat = Array(size ** 2)
       .fill()
       .map(() => ({ ...BASE_CELL }));
-    this.matrix = chunk_(this.flat, size);
+    this.grid = chunk_(this.flat, size);
 
     this
       .assignNeighbours()
@@ -70,7 +70,7 @@ export default class Grid {
 
   placeMines() {
     while (this.flat.filter((cell) => cell.hasMine).length < this.nMines) {
-      this.matrix[random_(this.size - 1)][random_(this.size - 1)].hasMine = true;
+      this.grid[random_(this.size - 1)][random_(this.size - 1)].hasMine = true;
     }
 
     for (let i = 0; i < this.flat.length; i += 1) {
@@ -94,7 +94,7 @@ export default class Grid {
     // compute the number of mines around a cell
     for (let row = 0; row < this.size; row += 1) {
       for (let col = 0; col < this.size; col += 1) {
-        this.matrix[row][col].neighbours = getNeighbourCells(this.matrix, row, col)
+        this.grid[row][col].neighbours = getNeighbourCells(this.grid, row, col)
           .filter((cell) => cell);
       }
     }
@@ -122,7 +122,6 @@ export default class Grid {
     for (let i = 0; i < this.flat.length; i += 1) {
       const cell = this.flat[i];
       Object.entries(BASE_CELL).forEach(([key, value]) => {
-        console.log(key, value);
         cell[key] = value;
       });
     }

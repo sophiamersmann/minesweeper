@@ -2,6 +2,7 @@
   <button
     class="cell"
     :class="classes"
+    @click.left="click"
   >
     {{ displayValue }}
   </button>
@@ -23,6 +24,11 @@ export default {
       return {
         'is-covered': this.isCovered,
       };
+    },
+  },
+  methods: {
+    click() {
+      this.isCovered = false;
     },
   },
 };
@@ -55,5 +61,7 @@ export default {
   background: var(--black);
   outline: 1px solid #fff;
   text-indent: 0;
+  /* for debugging only */
+  opacity: 0.7;
 }
 </style>

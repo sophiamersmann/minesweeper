@@ -1,4 +1,7 @@
 <template>
+  <nav>
+    <button @click="start">Restart!</button>
+  </nav>
   <div class="grid">
     <div
       class="grid__row"
@@ -36,5 +39,16 @@ export default {
       grid: new Grid(INIT.size, INIT.nMines),
     };
   },
+  methods: {
+    start() {
+      this.grid.shuffleMines();
+    },
+  },
 };
 </script>
+
+<style scoped>
+nav {
+  margin: var(--spacing) 0;
+}
+</style>

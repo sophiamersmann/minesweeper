@@ -1,6 +1,6 @@
 <template>
   <button class="cell">
-    {{ hasMine ? '•' : nMines }}
+    {{ displayValue }}
   </button>
 </template>
 
@@ -10,6 +10,12 @@ export default {
   props: ['cell'],
   data() {
     return this.cell;
+  },
+  computed: {
+    displayValue() {
+      if (this.hasMine) return '•';
+      return this.nMines > 0 ? this.nMines : null;
+    },
   },
 };
 </script>
@@ -23,6 +29,7 @@ export default {
   height: var(--size);
   line-height: var(--size);
   text-align: center;
+  vertical-align: middle;
   border: 0;
 }
 </style>

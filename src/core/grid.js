@@ -7,7 +7,7 @@ const BASE_CELL = {
 };
 
 function getCell(matrix) {
-  return function (row, col) {
+  return function gc(row, col) {
     if (matrix[row] && matrix[row][col]) return matrix[row][col];
     return null;
   };

@@ -21,7 +21,7 @@ export default {
     },
     classes() {
       return {
-        'is-covered': true,
+        'is-covered': this.isCovered,
       };
     },
   },

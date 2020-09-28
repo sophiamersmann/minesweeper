@@ -65,8 +65,7 @@ export default class Grid {
 
     this
       .assignNeighbours()
-      .placeMines()
-      .computeEmptyAreas();
+      .placeMines();
   }
 
   placeMines() {
@@ -86,6 +85,8 @@ export default class Grid {
       cell.emptyNeighbours = cell.neighbours.filter((c) => c.isEmpty);
     }
 
+    this.computeEmptyAreas();
+
     return this;
   }
 
@@ -100,18 +101,9 @@ export default class Grid {
     return this;
   }
 
-  clearMines() {
-    for (let i = 0; i < this.flat.length; i += 1) {
-      const cell = this.flat[i];
-      cell.hasMine = false;
-      cell.nMines = null;
-    }
-    return this;
-  }
-
   shuffleMines() {
     this
-      .clearMines()
+      .reset()
       .placeMines();
     return this;
   }
@@ -124,5 +116,16 @@ export default class Grid {
         cell.emptyArea = computeEmptyArea(cell);
       }
     }
+  }
+
+  reset() {
+    for (let i = 0; i < this.flat.length; i += 1) {
+      const cell = this.flat[i];
+      Object.entries(BASE_CELL).forEach(([key, value]) => {
+        console.log(key, value);
+        cell[key] = value;
+      });
+    }
+    return this;
   }
 }

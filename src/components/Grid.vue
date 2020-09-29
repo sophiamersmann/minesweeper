@@ -1,17 +1,27 @@
 <template>
   <nav>
+    <div>
+      <label for="size">Grid size: </label>
+      <input
+        v-model.number="size"
+        type="number"
+        id="input-size"
+        min="4"
+        max="32"
+        @change="start">
+    </div>
     <button @click="start">Restart!</button>
   </nav>
   <div class="grid">
     <div
       class="grid__row"
       v-for="(row, i) in grid.matrix"
-      :key="i"
+      :key="[gameKey, i]"
     >
       <Cell
         class="grid__cell"
         v-for="(cell, j) in row"
-        :key="j"
+        :key="[gameKey, i, j]"
         :cell="cell"
         @uncover="onUncover"
         @explode="onExplode"
@@ -29,6 +39,7 @@ import Grid from '@/core/Grid';
 import Cell from './Cell.vue';
 
 const INIT = {
+  gameKey: 0,
   size: 9,
   nMines: 10,
 };
@@ -40,6 +51,8 @@ export default {
   },
   data() {
     return {
+      gameKey: INIT.gameKey,
+      size: INIT.size,
       nMines: INIT.nMines,
       grid: new Grid(INIT.size).init(INIT.nMines),
       state: {
@@ -51,11 +64,12 @@ export default {
   },
   methods: {
     start() {
+      this.gameKey += 1;
       this.state.isFinished = false;
       this.state.isWon = false;
       this.uncovered = [];
 
-      this.grid.shuffleMines(this.nMines);
+      this.grid = new Grid(this.size).init(this.nMines);
     },
     onUncover(cell) {
       if (!this.uncovered.includes(cell)) this.uncovered.push(cell);
@@ -88,5 +102,9 @@ export default {
 <style scoped>
 nav {
   margin: var(--spacing) 0;
+}
+#input-size {
+  width: 40px;
+  text-align: right;
 }
 </style>

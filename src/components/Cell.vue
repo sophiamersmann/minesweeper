@@ -34,6 +34,12 @@ export default {
 
       this.uncover(cell);
 
+      if (this.hasMine) {
+        this.isExploded = true;
+        this.$emit('explode');
+        return;
+      }
+
       if (this.isEmpty) {
         const emptyArea = Game.computeEmptyArea(cell);
         for (let i = 0; i < emptyArea.length; i += 1) {

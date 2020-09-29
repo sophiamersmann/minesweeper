@@ -14,6 +14,7 @@
         :key="j"
         :cell="cell"
         @uncover="onUncover"
+        @explode="onExplode"
       />
     </div>
   </div>
@@ -56,6 +57,10 @@ export default {
         this.isFinished = true;
         this.isWon = true;
       }
+    },
+    onExplode() {
+      this.isFinished = true;
+      this.isWon = false;
     },
   },
 };

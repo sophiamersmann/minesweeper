@@ -54,10 +54,14 @@ export default {
     uncover(cell) {
       // eslint-disable-next-line no-param-reassign
       cell.isCovered = false;
+
+      // eslint-disable-next-line no-param-reassign
+      if (cell.isFlagged) cell.isFlagged = false;
+
       this.$emit('uncover', cell);
     },
     flag() {
-      this.isFlagged = true;
+      if (this.isCovered) this.isFlagged = true;
     },
   },
 };
@@ -73,10 +77,15 @@ export default {
   line-height: var(--size);
   text-align: center;
   vertical-align: middle;
-  border: 0;
+  border: 1px solid #fff;
+  border-radius: 25%;
   position: relative;
+  background-color: var(--accent-light);
 }
-
+.cell:disabled {
+  background-color: var(--accent-light);
+  color: inherit;
+}
 .cell.is-covered::after {
   --size: 100%;
 
@@ -87,15 +96,21 @@ export default {
   width: var(--size);
   height: var(--size);
   content: '';
-  background: var(--black);
-  outline: 1px solid #fff;
+  background: var(--accent);
   text-indent: 0;
-  /* for debugging only */
-  opacity: 0.7;
+  border-radius: inherit;
 }
-
 .cell.is-flagged::after {
   content: '⚑';
-  color: cornflowerblue;
+  color: hsl(43 91% 48%);
+  background-color: hsl(43 91% 88%);
+}
+.cell.is-flagged.is-wrong,
+.cell.is-flagged.is-wrong::after {
+  background-color: red;
+}
+.cell:not(.is-covered).is-flagged,
+.cell:not(.is-covered).is-flagged::after {
+  background-color: var(--accent-light);
 }
 </style>

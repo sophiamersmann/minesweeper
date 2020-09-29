@@ -68,6 +68,18 @@ export default {
     onExplode() {
       this.state.isFinished = true;
       this.state.isWon = false;
+
+      // uncover all mines
+      for (let i = 0; i < this.grid.mines.length; i += 1) {
+        const mineCell = this.grid.mines[i];
+        mineCell.isCovered = false;
+      }
+
+      // disable all cells
+      for (let i = 0; i < this.grid.flat.length; i += 1) {
+        const cell = this.grid.flat[i];
+        cell.isDisabled = true;
+      }
     },
   },
 };

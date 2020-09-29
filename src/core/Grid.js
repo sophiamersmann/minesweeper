@@ -6,6 +6,7 @@ const BASE_CELL = {
   isCovered: true,
   isExploded: false,
   isFlagged: false,
+  isDisabled: false,
 };
 
 function getCell(grid) {
@@ -53,6 +54,8 @@ export default class Grid {
     while (this.flat.filter((cell) => cell.hasMine).length < nMines) {
       this.matrix[random_(this.size - 1)][random_(this.size - 1)].hasMine = true;
     }
+
+    this.mines = this.flat.filter((cell) => cell.hasMine);
 
     for (let i = 0; i < this.flat.length; i += 1) {
       const cell = this.flat[i];

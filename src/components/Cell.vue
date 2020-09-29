@@ -2,6 +2,7 @@
   <button
     class="cell"
     :class="classes"
+    :disabled="isDisabled"
     @click.left="click"
     @click.right.prevent="flag"
   >

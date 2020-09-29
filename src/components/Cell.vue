@@ -9,6 +9,8 @@
 </template>
 
 <script>
+import Game from '@/core/Game';
+
 export default {
   name: 'Cell',
   props: ['cell'],
@@ -30,10 +32,11 @@ export default {
     click() {
       this.isCovered = false;
 
-      if (this.isEmpty && this.emptyArea) {
-        for (let i = 0; i < this.emptyArea.length; i += 1) {
-          const cell = this.emptyArea[i];
-          cell.isCovered = false;
+      if (this.isEmpty) {
+        const emptyArea = Game.computeEmptyArea(this.$data);
+        for (let i = 0; i < emptyArea.length; i += 1) {
+          const emptyCell = emptyArea[i];
+          emptyCell.isCovered = false;
         }
       }
     },

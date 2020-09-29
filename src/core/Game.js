@@ -27,31 +27,6 @@ function getNeighbourCells(grid, row, col) {
   ];
 }
 
-function computeEmptyArea(cell, chain = []) {
-  if (cell.isEmpty && chain.indexOf(cell) === -1) {
-    chain.push(cell);
-    cell.emptyNeighbours.forEach((neighbour) => {
-      if (neighbour.emptyNeighbours.length) {
-        computeEmptyArea(neighbour, chain);
-      }
-    });
-  }
-
-  chain.forEach((emptyCell) => {
-    if (emptyCell.isEmpty) {
-      emptyCell.neighbours.forEach((neighbour) => {
-        if (!neighbour.hasMine
-          && neighbour.mineNeighbours.length
-          && chain.indexOf(neighbour) === -1) {
-          chain.push(neighbour);
-        }
-      });
-    }
-  });
-
-  return chain;
-}
-
 export default class Grid {
   constructor(size, nMines) {
     this.size = size;
@@ -85,8 +60,6 @@ export default class Grid {
       cell.emptyNeighbours = cell.neighbours.filter((c) => c.isEmpty);
     }
 
-    this.computeEmptyAreas();
-
     return this;
   }
 
@@ -108,14 +81,29 @@ export default class Grid {
     return this;
   }
 
-  computeEmptyAreas() {
-    for (let i = 0; i < this.flat.length; i += 1) {
-      const cell = this.flat[i];
-      cell.emptyArea = [];
-      if (cell.isEmpty) {
-        cell.emptyArea = computeEmptyArea(cell);
-      }
+  static computeEmptyArea(cell, chain = []) {
+    if (cell.isEmpty && chain.indexOf(cell) === -1) {
+      chain.push(cell);
+      cell.emptyNeighbours.forEach((neighbour) => {
+        if (neighbour.emptyNeighbours.length) {
+          Grid.computeEmptyArea(neighbour, chain);
+        }
+      });
     }
+
+    chain.forEach((emptyCell) => {
+      if (emptyCell.isEmpty) {
+        emptyCell.neighbours.forEach((neighbour) => {
+          if (!neighbour.hasMine
+            && neighbour.mineNeighbours.length
+            && chain.indexOf(neighbour) === -1) {
+            chain.push(neighbour);
+          }
+        });
+      }
+    });
+
+    return chain;
   }
 
   reset() {

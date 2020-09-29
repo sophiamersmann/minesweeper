@@ -30,15 +30,22 @@ export default {
   },
   methods: {
     click() {
-      this.isCovered = false;
+      const cell = this.$data;
+
+      this.uncover(cell);
 
       if (this.isEmpty) {
-        const emptyArea = Game.computeEmptyArea(this.$data);
+        const emptyArea = Game.computeEmptyArea(cell);
         for (let i = 0; i < emptyArea.length; i += 1) {
           const emptyCell = emptyArea[i];
-          emptyCell.isCovered = false;
+          this.uncover(emptyCell);
         }
       }
+    },
+    uncover(cell) {
+      // eslint-disable-next-line no-param-reassign
+      cell.isCovered = false;
+      this.$emit('uncover', cell);
     },
   },
 };

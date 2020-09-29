@@ -13,8 +13,13 @@
         v-for="(cell, j) in row"
         :key="j"
         :cell="cell"
+        @uncover="onUncover"
       />
     </div>
+  </div>
+  <div>
+    <div v-if="isFinished && isWon">You won!</div>
+    <div v-if="isFinished && !isWon">You lost!</div>
   </div>
 </template>
 
@@ -35,11 +40,22 @@ export default {
   data() {
     return {
       game: new Game(INIT.size, INIT.nMines),
+      isFinished: false,
+      isWon: false,
+      uncovered: [],
     };
   },
   methods: {
     start() {
       this.game.shuffleMines();
+    },
+    onUncover(cell) {
+      if (!this.uncovered.includes(cell)) this.uncovered.push(cell);
+
+      if (this.uncovered.length === this.game.size ** 2 - this.game.nMines) {
+        this.isFinished = true;
+        this.isWon = true;
+      }
     },
   },
 };

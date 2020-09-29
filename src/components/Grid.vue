@@ -48,6 +48,10 @@ export default {
   },
   methods: {
     start() {
+      this.isFinished = false;
+      this.isWon = false;
+      this.uncovered = [];
+
       this.game.shuffleMines();
     },
     onUncover(cell) {

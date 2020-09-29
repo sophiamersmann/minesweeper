@@ -35,6 +35,7 @@
         :cell="cell"
         @uncover="onUncover"
         @explode="onExplode"
+        @flag="onFlag"
       />
     </div>
   </div>
@@ -70,6 +71,7 @@ export default {
         isWon: false,
       },
       uncovered: [],
+      flagged: [],
     };
   },
   computed: {
@@ -83,6 +85,7 @@ export default {
       this.state.isFinished = false;
       this.state.isWon = false;
       this.uncovered = [];
+      this.flagged = [];
 
       this.grid = new Grid(this.size).init(this.nMines);
     },
@@ -94,9 +97,20 @@ export default {
         this.state.isWon = true;
       }
     },
+    onFlag(cell) {
+      if (!this.flagged.includes(cell)) this.flagged.push(cell);
+
+      if (this.flagged.length === this.nMines && this.flagged.every((c) => c.hasMine)) {
+        this.finish();
+        this.state.isWon = true;
+      }
+    },
     onExplode() {
-      this.state.isFinished = true;
+      this.finish();
       this.state.isWon = false;
+    },
+    finish() {
+      this.state.isFinished = true;
 
       // uncover all mines
       for (let i = 0; i < this.grid.mines.length; i += 1) {

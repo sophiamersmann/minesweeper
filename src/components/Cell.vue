@@ -62,6 +62,7 @@ export default {
     },
     flag() {
       if (this.isCovered) this.isFlagged = true;
+      this.$emit('flag', this.$data);
     },
   },
 };
@@ -99,6 +100,7 @@ export default {
   background: var(--accent);
   text-indent: 0;
   border-radius: inherit;
+  opacity: 0.7;
 }
 .cell.is-flagged::after {
   content: '⚑';

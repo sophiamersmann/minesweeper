@@ -3,6 +3,7 @@
     class="cell"
     :class="classes"
     @click.left="click"
+    @click.right.prevent="flag"
   >
     {{ displayValue }}
   </button>
@@ -25,6 +26,7 @@ export default {
     classes() {
       return {
         'is-covered': this.isCovered,
+        'is-flagged': this.isFlagged,
       };
     },
   },
@@ -52,6 +54,9 @@ export default {
       // eslint-disable-next-line no-param-reassign
       cell.isCovered = false;
       this.$emit('uncover', cell);
+    },
+    flag() {
+      this.isFlagged = true;
     },
   },
 };
@@ -86,5 +91,10 @@ export default {
   text-indent: 0;
   /* for debugging only */
   opacity: 0.7;
+}
+
+.cell.is-flagged::after {
+  content: '⚑';
+  color: cornflowerblue;
 }
 </style>

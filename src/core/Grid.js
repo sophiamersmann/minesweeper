@@ -4,7 +4,8 @@ import random_ from 'lodash/random';
 const BASE_CELL = {
   hasMine: false,
   isCovered: true,
-  isExploded: true,
+  isExploded: false,
+  isFlagged: false,
 };
 
 function getCell(grid) {

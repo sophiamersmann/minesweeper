@@ -10,6 +10,16 @@
         max="32"
         @change="start">
     </div>
+    <div>
+      <label for="size">Number of mines: </label>
+      <input
+        v-model.number="nMines"
+        type="number"
+        id="input-mines"
+        min="1"
+        :max="nMinesMax"
+        @change="start">
+    </div>
     <button @click="start">Restart!</button>
   </nav>
   <div class="grid">
@@ -62,6 +72,11 @@ export default {
       uncovered: [],
     };
   },
+  computed: {
+    nMinesMax() {
+      return Math.floor(this.size ** 2 / 2);
+    },
+  },
   methods: {
     start() {
       this.gameKey += 1;
@@ -103,7 +118,7 @@ export default {
 nav {
   margin: var(--spacing) 0;
 }
-#input-size {
+nav input {
   width: 40px;
   text-align: right;
 }

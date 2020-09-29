@@ -29,24 +29,28 @@ function getNeighbourCells(grid, row, col) {
 }
 
 export default class Grid {
-  constructor(size, nMines) {
+  constructor(size) {
     this.size = size;
-    this.nMines = nMines;
 
     // initialise grid
     this.flat = Array(size ** 2)
       .fill()
       .map(() => ({ ...BASE_CELL }));
-    this.grid = chunk_(this.flat, size);
+    this.matrix = chunk_(this.flat, size);
 
-    this
-      .assignNeighbours()
-      .placeMines();
+    return this;
   }
 
-  placeMines() {
-    while (this.flat.filter((cell) => cell.hasMine).length < this.nMines) {
-      this.grid[random_(this.size - 1)][random_(this.size - 1)].hasMine = true;
+  init(nMines) {
+    this
+      .assignNeighbours()
+      .placeMines(nMines);
+    return this;
+  }
+
+  placeMines(nMines) {
+    while (this.flat.filter((cell) => cell.hasMine).length < nMines) {
+      this.matrix[random_(this.size - 1)][random_(this.size - 1)].hasMine = true;
     }
 
     for (let i = 0; i < this.flat.length; i += 1) {
@@ -68,17 +72,27 @@ export default class Grid {
     // compute the number of mines around a cell
     for (let row = 0; row < this.size; row += 1) {
       for (let col = 0; col < this.size; col += 1) {
-        this.grid[row][col].neighbours = getNeighbourCells(this.grid, row, col)
+        this.matrix[row][col].neighbours = getNeighbourCells(this.matrix, row, col)
           .filter((cell) => cell);
       }
     }
     return this;
   }
 
-  shuffleMines() {
+  shuffleMines(nMines) {
     this
       .reset()
-      .placeMines();
+      .placeMines(nMines);
+    return this;
+  }
+
+  reset() {
+    for (let i = 0; i < this.flat.length; i += 1) {
+      const cell = this.flat[i];
+      Object.entries(BASE_CELL).forEach(([key, value]) => {
+        cell[key] = value;
+      });
+    }
     return this;
   }
 
@@ -105,15 +119,5 @@ export default class Grid {
     });
 
     return chain;
-  }
-
-  reset() {
-    for (let i = 0; i < this.flat.length; i += 1) {
-      const cell = this.flat[i];
-      Object.entries(BASE_CELL).forEach(([key, value]) => {
-        cell[key] = value;
-      });
-    }
-    return this;
   }
 }

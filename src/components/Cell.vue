@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import Game from '@/core/Game';
+import Grid from '@/core/Grid';
 
 export default {
   name: 'Cell',
@@ -41,7 +41,7 @@ export default {
       }
 
       if (this.isEmpty) {
-        const emptyArea = Game.computeEmptyArea(cell);
+        const emptyArea = Grid.computeEmptyArea(cell);
         for (let i = 0; i < emptyArea.length; i += 1) {
           const emptyCell = emptyArea[i];
           this.uncover(emptyCell);

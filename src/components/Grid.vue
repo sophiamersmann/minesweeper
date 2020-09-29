@@ -5,7 +5,7 @@
   <div class="grid">
     <div
       class="grid__row"
-      v-for="(row, i) in game.grid"
+      v-for="(row, i) in grid.matrix"
       :key="i"
     >
       <Cell
@@ -18,14 +18,14 @@
       />
     </div>
   </div>
-  <div v-if="isFinished">
-    <div v-if="isWon">You won!</div>
+  <div v-if="state.isFinished">
+    <div v-if="state.isWon">You won!</div>
     <div v-else>You lost!</div>
   </div>
 </template>
 
 <script>
-import Game from '@/core/Game';
+import Grid from '@/core/Grid';
 import Cell from './Cell.vue';
 
 const INIT = {
@@ -40,31 +40,34 @@ export default {
   },
   data() {
     return {
-      game: new Game(INIT.size, INIT.nMines),
-      isFinished: false,
-      isWon: false,
+      nMines: INIT.nMines,
+      grid: new Grid(INIT.size).init(INIT.nMines),
+      state: {
+        isFinished: false,
+        isWon: false,
+      },
       uncovered: [],
     };
   },
   methods: {
     start() {
-      this.isFinished = false;
-      this.isWon = false;
+      this.state.isFinished = false;
+      this.state.isWon = false;
       this.uncovered = [];
 
-      this.game.shuffleMines();
+      this.grid.shuffleMines(this.nMines);
     },
     onUncover(cell) {
       if (!this.uncovered.includes(cell)) this.uncovered.push(cell);
 
-      if (this.uncovered.length === this.game.size ** 2 - this.game.nMines) {
-        this.isFinished = true;
-        this.isWon = true;
+      if (this.uncovered.length === this.grid.size ** 2 - this.grid.nMines) {
+        this.state.isFinished = true;
+        this.state.isWon = true;
       }
     },
     onExplode() {
-      this.isFinished = true;
-      this.isWon = false;
+      this.state.isFinished = true;
+      this.state.isWon = false;
     },
   },
 };

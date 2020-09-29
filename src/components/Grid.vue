@@ -17,9 +17,9 @@
       />
     </div>
   </div>
-  <div>
-    <div v-if="isFinished && isWon">You won!</div>
-    <div v-if="isFinished && !isWon">You lost!</div>
+  <div v-if="isFinished">
+    <div v-if="isWon">You won!</div>
+    <div v-else>You lost!</div>
   </div>
 </template>
 

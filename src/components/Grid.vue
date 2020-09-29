@@ -60,7 +60,7 @@ export default {
     onUncover(cell) {
       if (!this.uncovered.includes(cell)) this.uncovered.push(cell);
 
-      if (this.uncovered.length === this.grid.size ** 2 - this.grid.nMines) {
+      if (this.uncovered.length === this.grid.size ** 2 - this.nMines) {
         this.state.isFinished = true;
         this.state.isWon = true;
       }

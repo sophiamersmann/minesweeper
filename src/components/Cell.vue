@@ -61,7 +61,11 @@ export default {
       this.$emit('uncover', cell);
     },
     flag() {
-      if (this.isCovered) this.isFlagged = true;
+      if (this.isCovered) {
+        this.isFlagged = !this.isFlagged;
+      } else if (this.isFlagged) {
+        this.isFlagged = false;
+      }
       this.$emit('flag', this.$data);
     },
   },

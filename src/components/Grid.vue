@@ -115,12 +115,12 @@ export default {
   },
   computed: {
     nMines() {
-      return this.size ** 2 / {
+      return Math.floor(this.size ** 2 / {
         easy: 16,
         intermediate: 8,
         hard: 4,
         death: 2,
-      }[this.difficulty];
+      }[this.difficulty]);
     },
     classes() {
       return {
@@ -143,26 +143,21 @@ export default {
     },
     onUncover(cell) {
       if (!this.uncovered.includes(cell)) this.uncovered.push(cell);
-
-      if (this.uncovered.length === this.grid.size ** 2 - this.nMines) {
-        this.state.isFinished = true;
-        this.state.isWon = true;
-      }
+      this.checkState();
     },
     onFlag(cell) {
       if (!this.flagged.includes(cell)) this.flagged.push(cell);
-
-      if (
-        this.flagged.length === this.nMines
-        && this.flagged.every((c) => c.hasMine)
-      ) {
-        this.finish();
-        this.state.isWon = true;
-      }
+      this.checkState();
     },
     onExplode() {
       this.finish();
       this.state.isWon = false;
+    },
+    checkState() {
+      if (this.uncovered.length === this.grid.size ** 2 - this.nMines) {
+        this.state.isFinished = true;
+        this.state.isWon = true;
+      }
     },
     finish() {
       this.state.isFinished = true;

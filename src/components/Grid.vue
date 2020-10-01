@@ -1,7 +1,8 @@
 <template>
+  <h1>Minesweeper</h1>
   <nav>
     <div>
-      <label for="size">Grid size: </label>
+      <label for="input-size">Size</label>
       <input
         v-model.number="size"
         type="number"
@@ -11,8 +12,7 @@
         @change="start"
       />
     </div>
-    <div>
-      <label for="size">Number of mines: </label>
+    <div id="select-difficulty">
       <div>
         <input
           type="radio"
@@ -176,9 +176,31 @@ export default {
 <style scoped>
 nav {
   margin: var(--spacing) 0;
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
+  gap: calc(var(--spacing) / 2);
 }
 nav input {
   width: 40px;
   text-align: right;
+}
+#select-difficulty div {
+  display: inline;
+}
+#select-difficulty input {
+  display: none;
+}
+#select-difficulty label {
+  margin: calc(var(--spacing) / 8);
+  background-color: var(--accent-light);
+  padding: calc(var(--spacing) / 16) calc(var(--spacing) / 8);
+  border-radius: 5px;
+  color: var(--accent);
+  font-weight: bold;
+}
+#select-difficulty input:checked + label {
+  background-color: var(--accent);
+  color: hsla(0, 100%, 100%, 0.9);
 }
 </style>

@@ -31,8 +31,9 @@ function getNeighbourCells(grid, row, col) {
 }
 
 export default class Grid {
-  constructor(size) {
+  constructor(size, nMines) {
     this.size = size;
+    this.nMines = nMines;
 
     // initialise grid
     this.flat = Array(size ** 2)
@@ -40,18 +41,15 @@ export default class Grid {
       .map(() => ({ ...BASE_CELL }));
     this.matrix = chunk_(this.flat, size);
 
-    return this;
-  }
-
-  init(nMines) {
     this
       .assignNeighbours()
-      .placeMines(nMines);
+      .placeMines();
+
     return this;
   }
 
-  placeMines(nMines) {
-    while (this.flat.filter((cell) => cell.hasMine).length < nMines) {
+  placeMines() {
+    while (this.flat.filter((cell) => cell.hasMine).length < this.nMines) {
       this.matrix[random_(this.size - 1)][random_(this.size - 1)].hasMine = true;
     }
 
@@ -83,10 +81,10 @@ export default class Grid {
     return this;
   }
 
-  shuffleMines(nMines) {
+  shuffleMines() {
     this
       .reset()
-      .placeMines(nMines);
+      .placeMines(this.nMines);
     return this;
   }
 

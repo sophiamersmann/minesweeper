@@ -8,26 +8,57 @@
         id="input-size"
         min="4"
         max="32"
-        @change="start">
+        @change="start"
+      />
     </div>
     <div>
       <label for="size">Number of mines: </label>
-      <input
-        v-model.number="nMines"
-        type="number"
-        id="input-mines"
-        min="1"
-        :max="nMinesMax"
-        @change="start">
+      <div>
+        <input
+          type="radio"
+          id="input-easy"
+          value="easy"
+          v-model="difficulty"
+          @change="start"
+        />
+        <label for="input-easy">Easy</label>
+      </div>
+      <div>
+        <input
+          type="radio"
+          id="input-intermediate"
+          value="intermediate"
+          v-model="difficulty"
+          @change="start"
+          checked
+        />
+        <label for="input-intermediate">Reasonable</label>
+      </div>
+      <div>
+        <input
+          type="radio"
+          id="input-hard"
+          value="hard"
+          v-model="difficulty"
+          @change="start"
+        />
+        <label for="input-hard">Hard</label>
+      </div>
+      <div>
+        <input
+          type="radio"
+          id="input-death"
+          value="death"
+          v-model="difficulty"
+          @change="start"
+        />
+        <label for="input-death">Death</label>
+      </div>
     </div>
     <button @click="start">Restart!</button>
   </nav>
   <div class="grid">
-    <div
-      class="grid__row"
-      v-for="(row, i) in grid.matrix"
-      :key="[gameKey, i]"
-    >
+    <div class="grid__row" v-for="(row, i) in grid.matrix" :key="[gameKey, i]">
       <Cell
         class="grid__cell"
         v-for="(cell, j) in row"
@@ -49,10 +80,10 @@
 import Grid from '@/core/Grid';
 import Cell from './Cell.vue';
 
-const INIT = {
+const DEFAULT = {
   gameKey: 0,
   size: 9,
-  nMines: 10,
+  difficulty: 'intermediate',
 };
 
 export default {
@@ -62,32 +93,43 @@ export default {
   },
   data() {
     return {
-      gameKey: INIT.gameKey,
-      size: INIT.size,
-      nMines: INIT.nMines,
-      grid: new Grid(INIT.size).init(INIT.nMines),
+      gameKey: DEFAULT.gameKey,
+      size: DEFAULT.size,
+      difficulty: DEFAULT.difficulty,
       state: {
+        hasStarted: false,
         isFinished: false,
         isWon: false,
       },
+      grid: null,
       uncovered: [],
       flagged: [],
     };
   },
+  created() {
+    this.start();
+  },
   computed: {
-    nMinesMax() {
-      return Math.floor(this.size ** 2 / 2);
+    nMines() {
+      return this.size ** 2 / {
+        easy: 16,
+        intermediate: 8,
+        hard: 4,
+        death: 2,
+      }[this.difficulty];
     },
   },
   methods: {
     start() {
       this.gameKey += 1;
+
       this.state.isFinished = false;
       this.state.isWon = false;
+
+      this.grid = new Grid(this.size, this.nMines);
+
       this.uncovered = [];
       this.flagged = [];
-
-      this.grid = new Grid(this.size).init(this.nMines);
     },
     onUncover(cell) {
       if (!this.uncovered.includes(cell)) this.uncovered.push(cell);
@@ -100,7 +142,10 @@ export default {
     onFlag(cell) {
       if (!this.flagged.includes(cell)) this.flagged.push(cell);
 
-      if (this.flagged.length === this.nMines && this.flagged.every((c) => c.hasMine)) {
+      if (
+        this.flagged.length === this.nMines
+        && this.flagged.every((c) => c.hasMine)
+      ) {
         this.finish();
         this.state.isWon = true;
       }

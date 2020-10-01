@@ -193,6 +193,14 @@ nav input {
   border-bottom: 2px solid var(--accent);
   font-size: 0.9rem;
 }
+
+.label-top {
+  display: block;
+  text-align: left;
+  margin-bottom: calc((var(--spacing) / 8));
+  font-size: 0.8rem;
+}
+
 #select-difficulty div {
   display: inline;
 }
@@ -212,18 +220,14 @@ nav input {
   background-color: var(--accent);
   color: hsla(0, 100%, 100%, 0.9);
 }
-.label-top {
-  display: block;
-  text-align: left;
-  margin-bottom: calc((var(--spacing) / 8));
-  font-size: 0.8rem;
-}
 #select-difficulty .label-top {
   margin-left: calc((var(--spacing) / 8));
 }
+
 .match-state {
   margin: var(--spacing) 0 ;
 }
+
 .dice {
   background: 0;
   border: 0;

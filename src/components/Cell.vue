@@ -92,6 +92,7 @@ export default {
   position: relative;
   background-color: var(--primary-light);
 }
+
 .cell.has-1-mine-neighbours {
   color: #979A9B;
 }
@@ -108,12 +109,14 @@ export default {
 .cell.has-8-mine-neighbours {
   color: hsl(358 97% 31%);
 }
+
 .cell:disabled {
   background-color: var(--primary-light);
 }
 .cell.has-mine:disabled {
   color: var(--black);
 }
+
 .cell.is-covered::after {
   --size: 100%;
 
@@ -128,15 +131,18 @@ export default {
   text-indent: 0;
   border-radius: inherit;
 }
+
 .cell.is-flagged::after {
   content: '⚑';
   color: var(--accent);
   background-color: var(--accent-light);
 }
+
 .cell:not(.is-covered).is-flagged,
 .cell:not(.is-covered).is-flagged::after {
   background-color: var(--primary-light);
 }
+
 .cell.has-mine {
   background-color: var(--accent);
 }

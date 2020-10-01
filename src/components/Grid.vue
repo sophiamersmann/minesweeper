@@ -74,6 +74,10 @@
       />
     </div>
   </div>
+  <div class="description">
+    <span class="highlight">Left click</span> Uncover &nbsp;
+    <span class="highlight">Right click</span> Flag
+  </div>
   <div class="match-state" v-if="state.isFinished">
     <div v-if="state.isWon">You won! 🎉</div>
     <div v-else>Sorry! 😢</div>
@@ -224,8 +228,17 @@ nav input {
   margin-left: calc((var(--spacing) / 8));
 }
 
+.description {
+  margin: calc(var(--spacing) / 4) 0;
+  font-size: 0.8rem;
+}
+.description .highlight {
+  color: var(--primary);
+  font-weight: bold;
+}
+
 .match-state {
-  margin: var(--spacing) 0 ;
+  margin: var(--spacing) 0;
 }
 
 .dice {

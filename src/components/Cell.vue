@@ -76,6 +76,8 @@ export default {
 .cell {
   --size: 1.5rem;
 
+  font-family: 'Courier Prime', monospace;
+  font-weight: bold;
   font-size: 0.8rem;
   width: var(--size);
   height: var(--size);
@@ -85,10 +87,10 @@ export default {
   border: 1px solid #fff;
   border-radius: 25%;
   position: relative;
-  background-color: var(--accent-light);
+  background-color: var(--primary-light);
 }
 .cell:disabled {
-  background-color: var(--accent-light);
+  background-color: var(--primary-light);
   color: inherit;
 }
 .cell.is-covered::after {
@@ -101,15 +103,15 @@ export default {
   width: var(--size);
   height: var(--size);
   content: '';
-  background: var(--accent);
+  background: var(--primary);
   text-indent: 0;
   border-radius: inherit;
   opacity: 0.7;
 }
 .cell.is-flagged::after {
   content: '⚑';
-  color: hsl(43 91% 48%);
-  background-color: hsl(43 91% 88%);
+  color: var(--accent);
+  background-color: var(--accent-light);
 }
 .cell.is-flagged.is-wrong,
 .cell.is-flagged.is-wrong::after {
@@ -117,6 +119,6 @@ export default {
 }
 .cell:not(.is-covered).is-flagged,
 .cell:not(.is-covered).is-flagged::after {
-  background-color: var(--accent-light);
+  background-color: var(--primary-light);
 }
 </style>

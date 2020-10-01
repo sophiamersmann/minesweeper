@@ -1,11 +1,16 @@
+@import 'typo.css';
+
 :root {
   --spacing: 2rem;
   --black: hsl(210 11% 15%);
-  --accent: hsl(203 89% 33%);
-  --accent-light: hsl(203 89% 90%);
+  --primary: hsl(203 89% 33%);
+  --primary-light: hsl(203 89% 90%);
+  --accent: hsl(43 91% 48%);
+  --accent-light: hsl(43 91% 88%);
 }
 
 html {
+  font-family: 'Montserrat', sans-serif;
   box-sizing: border-box;
   color: var(--black);
 }

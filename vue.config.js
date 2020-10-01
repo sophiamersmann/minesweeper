@@ -1,3 +1,3 @@
 module.exports = {
-  publicPath: '/minesweeper/',
+  publicPath: '/minesweeper/dist/',
 };

@@ -74,9 +74,9 @@
       />
     </div>
   </div>
-  <div v-if="state.isFinished">
-    <div v-if="state.isWon">You won!</div>
-    <div v-else>You lost!</div>
+  <div class="match-state" v-if="state.isFinished">
+    <div v-if="state.isWon">You won! 🎉</div>
+    <div v-else>Sorry! 😢</div>
   </div>
 </template>
 
@@ -225,6 +225,9 @@ nav input {
 }
 #select-difficulty .label-top {
   margin-left: calc((var(--spacing) / 8));
+}
+.match-state {
+  margin: var(--spacing) 0 ;
 }
 .dice {
   background: 0;

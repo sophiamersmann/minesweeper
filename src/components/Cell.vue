@@ -25,10 +25,13 @@ export default {
       return this.nMineNeighbours > 0 ? this.nMineNeighbours : null;
     },
     classes() {
-      return {
+      const classes = {
         'is-covered': this.isCovered,
         'is-flagged': this.isFlagged,
+        'has-mine': this.hasMine,
       };
+      classes[`has-${this.nMineNeighbours}-mine-neighbours`] = true;
+      return classes;
     },
   },
   methods: {
@@ -89,9 +92,27 @@ export default {
   position: relative;
   background-color: var(--primary-light);
 }
+.cell.has-1-mine-neighbours {
+  color: #979A9B;
+}
+.cell.has-2-mine-neighbours {
+  color: var(--primary);
+}
+.cell.has-3-mine-neighbours,
+.cell.has-4-mine-neighbours {
+  color: hsl(0 100% 41%);
+}
+.cell.has-5-mine-neighbours,
+.cell.has-6-mine-neighbours,
+.cell.has-7-mine-neighbours,
+.cell.has-8-mine-neighbours {
+  color: hsl(358 97% 31%);
+}
 .cell:disabled {
   background-color: var(--primary-light);
-  color: inherit;
+}
+.cell.has-mine:disabled {
+  color: var(--black);
 }
 .cell.is-covered::after {
   --size: 100%;
@@ -106,19 +127,24 @@ export default {
   background: var(--primary);
   text-indent: 0;
   border-radius: inherit;
-  opacity: 0.7;
 }
 .cell.is-flagged::after {
   content: '⚑';
   color: var(--accent);
   background-color: var(--accent-light);
 }
-.cell.is-flagged.is-wrong,
-.cell.is-flagged.is-wrong::after {
-  background-color: red;
-}
 .cell:not(.is-covered).is-flagged,
 .cell:not(.is-covered).is-flagged::after {
   background-color: var(--primary-light);
+}
+.cell.has-mine {
+  background-color: var(--accent);
+}
+
+.grid.is-finished.is-lost .cell.has-mine::after {
+  content: '';
+}
+.grid.is-finished.is-lost .cell.has-mine {
+  background-color: var(--accent);
 }
 </style>

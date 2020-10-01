@@ -2,7 +2,7 @@
   <h1>Minesweeper</h1>
   <nav>
     <div>
-      <label for="input-size">Size</label>
+      <label class="label-top" for="input-size">Size</label>
       <input
         v-model.number="size"
         type="number"
@@ -13,6 +13,7 @@
       />
     </div>
     <div id="select-difficulty">
+      <label class="label-top" for="input-size">Level</label>
       <div>
         <input
           type="radio"
@@ -21,7 +22,7 @@
           v-model="difficulty"
           @change="start"
         />
-        <label for="input-easy">Easy</label>
+        <label class="as-button" for="input-easy">EASY</label>
       </div>
       <div>
         <input
@@ -32,7 +33,7 @@
           @change="start"
           checked
         />
-        <label for="input-intermediate">Reasonable</label>
+        <label class="as-button" for="input-intermediate">REASONABLE</label>
       </div>
       <div>
         <input
@@ -42,7 +43,7 @@
           v-model="difficulty"
           @change="start"
         />
-        <label for="input-hard">Hard</label>
+        <label class="as-button" for="input-hard">HARD</label>
       </div>
       <div>
         <input
@@ -52,12 +53,15 @@
           v-model="difficulty"
           @change="start"
         />
-        <label for="input-death">Death</label>
+        <label class="as-button" for="input-death">DEATH</label>
       </div>
     </div>
-    <button @click="start">Restart!</button>
+    <div>
+      <div class="label-top">&nbsp;</div>
+      <button class="dice" @click="start">🎲</button>
+    </div>
   </nav>
-  <div class="grid">
+  <div class="grid" :class="classes">
     <div class="grid__row" v-for="(row, i) in grid.matrix" :key="[gameKey, i]">
       <Cell
         class="grid__cell"
@@ -117,6 +121,12 @@ export default {
         hard: 4,
         death: 2,
       }[this.difficulty];
+    },
+    classes() {
+      return {
+        'is-finished': this.state.isFinished,
+        'is-lost': !this.state.isWon,
+      };
     },
   },
   methods: {
@@ -183,7 +193,10 @@ nav {
 }
 nav input {
   width: 40px;
-  text-align: right;
+  text-align: center;
+  border: 0;
+  border-bottom: 2px solid var(--accent);
+  font-size: 0.9rem;
 }
 #select-difficulty div {
   display: inline;
@@ -191,16 +204,47 @@ nav input {
 #select-difficulty input {
   display: none;
 }
-#select-difficulty label {
+#select-difficulty .as-button {
   margin: calc(var(--spacing) / 8);
   background-color: var(--accent-light);
   padding: calc(var(--spacing) / 16) calc(var(--spacing) / 8);
   border-radius: 5px;
   color: var(--accent);
   font-weight: bold;
+  font-size: 0.8rem;
 }
 #select-difficulty input:checked + label {
   background-color: var(--accent);
   color: hsla(0, 100%, 100%, 0.9);
+}
+.label-top {
+  display: block;
+  text-align: left;
+  margin-bottom: calc((var(--spacing) / 8));
+  font-size: 0.8rem;
+}
+#select-difficulty .label-top {
+  margin-left: calc((var(--spacing) / 8));
+}
+.dice {
+  background: 0;
+  border: 0;
+}
+.dice:active {
+  animation: shake 0.5s;
+}
+
+@keyframes shake {
+  0% { transform: translate(1px, 1px) rotate(0deg); }
+  10% { transform: translate(-1px, -2px) rotate(-1deg); }
+  20% { transform: translate(-3px, 0px) rotate(1deg); }
+  30% { transform: translate(3px, 2px) rotate(0deg); }
+  40% { transform: translate(1px, -1px) rotate(1deg); }
+  50% { transform: translate(-1px, 2px) rotate(-1deg); }
+  60% { transform: translate(-3px, 1px) rotate(0deg); }
+  70% { transform: translate(3px, 1px) rotate(-1deg); }
+  80% { transform: translate(-1px, -1px) rotate(1deg); }
+  90% { transform: translate(1px, 2px) rotate(0deg); }
+  100% { transform: translate(1px, -2px) rotate(-1deg); }
 }
 </style>

@@ -3,10 +3,10 @@
 :root {
   --spacing: 2rem;
   --black: hsl(210 11% 15%);
-  --primary: hsl(203 89% 33%);
-  --primary-light: hsl(203 89% 90%);
-  --accent: hsl(43 91% 48%);
-  --accent-light: hsl(43 91% 88%);
+  --primary: hsl(204 68% 41%);
+  --primary-light: hsl(204 68% 88%);
+  --accent: hsl(37 96% 61%);
+  --accent-light: hsl(37 96% 88%);
 }
 
 html {

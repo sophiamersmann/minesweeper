@@ -1,5 +1,9 @@
 # Minesweeper
 
+Built with Vue.
+
+Live at https://sophiamersmann.github.io/minesweeper/dist/
+
 ## Project setup
 ```
 npm install

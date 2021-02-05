@@ -1,3 +1,5 @@
 module.exports = {
-  publicPath: '/minesweeper/dist/',
+  publicPath: process.env.NODE_ENV === 'production'
+    ? '/minesweeper/'
+    : '/',
 };

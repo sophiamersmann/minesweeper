@@ -2,7 +2,7 @@
 
 Built with Vue.
 
-Live at https://sophiamersmann.github.io/minesweeper/dist/
+Live at https://sophiamersmann.github.io/minesweeper/
 
 ## Project setup
 ```
